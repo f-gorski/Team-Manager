@@ -22,10 +22,10 @@ app.use(express.json());
 app.get('/api/', (req, res) => res.send('API działa'));
 
 app.get('/api/groups', (req, res) => {
-    db.all('SELECT name FROM groups', (err, rows) => {
-        const groupNames = rows.map(el => el.name);
+    db.all('SELECT name, group_id FROM groups', (err, rows) => {
+        //const groupId = rows.map(el => {el.name, el.group_id});
         
-        res.send(groupNames);
+        res.send(rows);
     })
     
 });
@@ -35,7 +35,7 @@ app.post('/api/groups', (req, res) => {
     console.log(group);
 
     let placeholders = group.map((column) => '?').join(',');
-    let sql = 'INSERT INTO groups (group_id, name, member_list_id, trainer_id) VALUES (' + placeholders + ')';
+    let sql = 'INSERT INTO groups (group_id, name, member_list_id, trainer_name) VALUES (' + placeholders + ')';
     console.log(sql);
 
     db.run(sql, group, (err) => {

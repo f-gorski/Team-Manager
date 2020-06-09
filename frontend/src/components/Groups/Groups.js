@@ -1,36 +1,67 @@
 import React, { Component } from 'react';
 
+import GroupsList from './GroupsList';
+import GroupDetails from './GroupDetails';
+import AddGroup from './AddGroup';
+
 class Groups extends Component {
     constructor() {
         super();
         this.state = {
-            groups: null
+            groups: null,
+            groupDetails: null,
         }
     }
 
     componentDidMount() {
         fetch('http://localhost:5000/api/groups')
             .then(response => response.json())
-            .then(data => this.setState({
+            .then(data => {
+                this.setState({
                 groups: data
-            }));
+            })
+            console.log(data);
+            })    
+    }
+
+    handleClick = (e) => {
+        console.log(e.target.id)
+        fetch('http://localhost:5000/api/groups/' + e.target.id)
+        .then(response => response.json())
+        .then(data => {this.setState({
+            groupDetails: data
+        })
+        console.log(data)
+        });
+    }
+
+    handleListUpdate = () => {
+        fetch('http://localhost:5000/api/groups')
+            .then(response => response.json())
+            .then(data => {
+                this.setState({
+                groups: data
+            })
+            console.log(data);
+            })    
     }
 
     render() {
-        let groupsToRender = null;
-
-        if(this.state.groups) {
-            groupsToRender = this.state.groups.map((group) => {
-                return <li>{group}</li>
-            })
-        }
-        
         return(
             <div className="container">
-                <h2>Zawartość zakładki Grupy</h2>
-                <ul className="groups-list">
-                    {this.state.groups ? groupsToRender : "Wczytywanie..."}
-                </ul>
+                <div className="box">
+                    <h2>Grupy sportowe</h2>
+                    {this.state.groups ? <GroupsList groups={this.state.groups} handleClick={this.handleClick}/> : null}
+                    <AddGroup handleListUpdate={this.handleListUpdate} />
+                </div>
+                {this.state.groupDetails 
+                    ? 
+                    <div className="box"> 
+                        <GroupDetails groupDetails={this.state.groupDetails} /> 
+                    </div> 
+                    : 
+                    null
+                }
             </div>
         )
     }

@@ -22,28 +22,28 @@ db.serialize(() => {
     });
 
     //tworzenie tabeli grup sportowych
-    db.run("CREATE TABLE groups(group_id INTEGER PRIMARY KEY, name TEXT, member_list_id INTEGER, trainer_id INTEGER)", (err) => {
+    db.run("CREATE TABLE groups(group_id INTEGER PRIMARY KEY, name TEXT, member_list_id INTEGER, trainer_name TEXT)", (err) => {
         if(err) {
             console.error(err);
         } else {
             console.log("Initialized groups")
         }
     });
-    db.run("INSERT INTO groups VALUES (0, 'Grupa piłki nożnej', 0, 0)", (err) => {
+    db.run("INSERT INTO groups VALUES (0, 'Grupa piłki nożnej', 0, 'Krystian Kowalski')", (err) => {
         if(err) {
             console.error(err);
         } else {
             console.log("Inserted initial group")
         }
     });
-    db.run("INSERT INTO groups VALUES (1, 'Grupa siatkówki', 1, 0)", (err) => {
+    db.run("INSERT INTO groups VALUES (1, 'Grupa siatkówki', 1, 'Jan Nowak')", (err) => {
         if(err) {
             console.error(err);
         } else {
             console.log("Inserted initial group")
         }
     });
-    db.run("INSERT INTO groups VALUES (2, 'Grupa koszykówki', 2, 0)", (err) => {
+    db.run("INSERT INTO groups VALUES (2, 'Grupa koszykówki', 2, 'Kazimierz Nowak')", (err) => {
         if(err) {
             console.error(err);
         } else {
