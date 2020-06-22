@@ -4,7 +4,6 @@ class AddGroup extends Component {
     constructor() {
         super();
         this.state = {
-            group_id: "323",
             nameGroup: "",
             membersList: "0",
             nameTrainer: "",
@@ -25,7 +24,6 @@ class AddGroup extends Component {
             .then(() =>  this.props.handleListUpdate());
 
         this.setState({
-            group_id: "323",
             nameGroup: "",
             membersList: "0",
             nameTrainer: "",

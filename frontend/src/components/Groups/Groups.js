@@ -25,14 +25,24 @@ class Groups extends Component {
     }
 
     handleClick = (e) => {
-        console.log(e.target.id)
-        fetch('http://localhost:5000/api/groups/' + e.target.id)
+        console.log(e.target.id);
+        fetch(`http://localhost:5000/api/groups/${e.target.id}`)
         .then(response => response.json())
         .then(data => {this.setState({
             groupDetails: data
         })
         console.log(data)
         });
+    }
+
+    handleDelete = (e) => {
+        console.log(e.target.id);
+        fetch('http://localhost:5000/api/groups/' + e.target.id, {
+            method: 'DELETE'
+            }
+        )
+        .then(response => console.log(response.status, "response:", response))
+        .then(() =>  this.handleListUpdate());
     }
 
     handleListUpdate = () => {
@@ -51,7 +61,7 @@ class Groups extends Component {
             <div className="container">
                 <div className="box">
                     <h2>Grupy sportowe</h2>
-                    {this.state.groups ? <GroupsList groups={this.state.groups} handleClick={this.handleClick}/> : null}
+                    {this.state.groups ? <GroupsList groups={this.state.groups} handleClick={this.handleClick} handleDelete={this.handleDelete}/> : null}
                     <AddGroup handleListUpdate={this.handleListUpdate} />
                 </div>
                 {this.state.groupDetails 

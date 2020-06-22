@@ -21,29 +21,37 @@ db.serialize(() => {
         }
     });
 
+    db.run("INSERT INTO users VALUES (1, 'User1', 'test@test.com', 1, 1)", (err) => {
+        if(err) {
+            console.error(err);
+        } else {
+            console.log("Inserted initial trainer")
+        }
+    });
+
     //tworzenie tabeli grup sportowych
-    db.run("CREATE TABLE groups(group_id INTEGER PRIMARY KEY, name TEXT, member_list_id INTEGER, trainer_name TEXT)", (err) => {
+    db.run("CREATE TABLE groups(name TEXT, member_list_id INTEGER, trainer_name TEXT)", (err) => {
         if(err) {
             console.error(err);
         } else {
             console.log("Initialized groups")
         }
     });
-    db.run("INSERT INTO groups VALUES (0, 'Grupa piłki nożnej', 0, 'Krystian Kowalski')", (err) => {
+    db.run("INSERT INTO groups VALUES ('Grupa piłki nożnej', 0, 'Trener 1')", (err) => {
         if(err) {
             console.error(err);
         } else {
             console.log("Inserted initial group")
         }
     });
-    db.run("INSERT INTO groups VALUES (1, 'Grupa siatkówki', 1, 'Jan Nowak')", (err) => {
+    db.run("INSERT INTO groups VALUES ('Grupa siatkówki', 1, 'Trener 2')", (err) => {
         if(err) {
             console.error(err);
         } else {
             console.log("Inserted initial group")
         }
     });
-    db.run("INSERT INTO groups VALUES (2, 'Grupa koszykówki', 2, 'Kazimierz Nowak')", (err) => {
+    db.run("INSERT INTO groups VALUES ('Grupa koszykówki', 2, 'Trener 3')", (err) => {
         if(err) {
             console.error(err);
         } else {
@@ -51,14 +59,23 @@ db.serialize(() => {
         }
     });
 
-    //tworzenie tabeli członków grup
-    db.run("CREATE TABLE members(user_id INTEGER PRIMARY KEY, name TEXT, group_id INTEGER)", (err) => {
+    //tworzenie tabeli trenerów
+    db.run("CREATE TABLE trainers(trainer_id INTEGER, trainer_name TEXT)", (err) => {
         if(err) {
             console.error(err);
         } else {
-            console.log("Created members table")
+            console.log("Created trainers table")
         }
     });
+
+    db.run("INSERT INTO trainers VALUES (1, 'Jan Kowalski')", (err) => {
+        if(err) {
+            console.error(err);
+        } else {
+            console.log("Inserted initial trainer")
+        }
+    });
+
 
     //tworzenie tabeli wiadomości tekstowych
     db.run("CREATE TABLE messages(msg_from TEXT, msg_to TEXT, header TEXT, body TEXT)", (err) => {
@@ -66,6 +83,14 @@ db.serialize(() => {
             console.error(err);
         } else {
             console.log("Created members table")
+        }
+    });
+
+    db.run("INSERT INTO messages VALUES ('Trener 1', 'Jan Kowalski', 'Zmiana terminu zajęć', 'Nastapiła zmiana terminu zajęć na godzinę 19:00')", (err) => {
+        if(err) {
+            console.error(err);
+        } else {
+            console.log("Inserted initial trainer")
         }
     });
 

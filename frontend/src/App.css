@@ -23,7 +23,7 @@
   color: black;
   margin-top: 2rem;
   width: 45%;
-  height: 300px;
+
   border-radius: 10px;
   padding: 20px;
 }
@@ -58,6 +58,6 @@ header nav a {
   background-color: gray;
 }
 
-.groups-list {
+.items-list {
   list-style: none;
 }

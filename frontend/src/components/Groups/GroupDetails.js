@@ -10,7 +10,7 @@ class GroupDetails extends Component {
 
     render() {
         return (
-                 <ul className="groups-list">
+                 <ul className="items-list">
                     <li>Nazwa grupy: {this.props.groupDetails.name}</li>
                     <li>Członkowie grupy: {this.props.groupDetails.member_list_id}</li>
                     <li>Trener grupy: {this.props.groupDetails.trainer_name}</li>

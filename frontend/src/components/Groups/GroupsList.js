@@ -10,11 +10,11 @@ class GroupsList extends Component {
 
     render() {
             const groupsToRender = this.props.groups.map((group) => {
-            return <li onClick={this.props.handleClick} id={group.group_id}>{group.name}</li>
+            return <><li onClick={this.props.handleClick} id={group.rowid}>{group.name}</li><button id={group.rowid} onClick={this.props.handleDelete}>Usuń</button></>
             })
             
         return(
-            <ul className="groups-list">
+            <ul className="items-list">
                 {groupsToRender}
             </ul>
         )
