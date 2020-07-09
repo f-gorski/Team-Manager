@@ -1,21 +1,34 @@
 import React, { Component } from 'react';
+import TrainerSelect from './TrainerSelect';
 
 class AddGroup extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
+            trainerList: null,
             nameGroup: "",
-            membersList: "0",
-            nameTrainer: "",
+            trainer: "",
         }
+    }
+
+    componentDidMount() {
+        fetch('http://localhost:5000/api/users/trainers')
+            .then(response => response.json())
+            .then((data) =>  {
+                this.setState({trainerList: data});
+                console.log(this.state.trainerList);
+            }); 
     }
 
     handleSubmit = (e) => {
         e.preventDefault();
-        console.log(this.state);
+        const postBody = this.state;
+        const trainerList = this.state.trainerList;
+        delete postBody.trainerList;
+
         fetch('http://localhost:5000/api/groups', {
                 method: 'POST',
-                body: JSON.stringify(this.state),
+                body: JSON.stringify(postBody),
                 headers: {
                     'Content-Type': 'application/json'
                 }
@@ -25,14 +38,15 @@ class AddGroup extends Component {
 
         this.setState({
             nameGroup: "",
-            membersList: "0",
-            nameTrainer: "",
+            trainer: "",
+            trainerList: trainerList
         })
     }
 
     handleChange = (e) => {
+        const {name, value} = e.target
         this.setState({
-            [e.target.name]: e.target.value
+            [name]: value
         })
     }
 
@@ -48,8 +62,13 @@ class AddGroup extends Component {
                 </div>
 
                 <div>
-                    <label>Imię i nazwisko trenera
-                        <input name="nameTrainer" type="text" value={this.state.nameTrainer} onChange={this.handleChange} />
+                <label>Trener:
+                        {this.state.trainerList
+                            ?
+                            <TrainerSelect trainerList={this.state.trainerList} trainer={this.state.trainer} handleChange={this.handleChange}/>
+                            :
+                            null
+                        }
                     </label>
                 </div>
 

@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import { AuthContext } from '../../auth/AuthContext';
+
 import GroupsList from './GroupsList';
 import GroupDetails from './GroupDetails';
 import AddGroup from './AddGroup';
@@ -18,8 +20,8 @@ class Groups extends Component {
             .then(response => response.json())
             .then(data => {
                 this.setState({
-                groups: data
-            })
+                    groups: data
+                })
             console.log(data);
             })    
     }
@@ -45,6 +47,26 @@ class Groups extends Component {
         .then(() =>  this.handleListUpdate());
     }
 
+    handleJoinGroup = (e) => {
+        console.log(e.target.id);
+        console.log(this.context.user.user_id)
+        const userid = this.context.user.user_id;
+        const groupid = e.target.id;
+
+        fetch('http://localhost:5000/api/users/' + userid, {
+            method: 'PATCH',
+            body: JSON.stringify({
+                groupid: groupid
+            }),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }
+        )
+        .then(response => console.log(response.status, "response:", response))
+        .then(() =>  this.handleListUpdate());
+    }
+
     handleListUpdate = () => {
         fetch('http://localhost:5000/api/groups')
             .then(response => response.json())
@@ -61,8 +83,20 @@ class Groups extends Component {
             <div className="container">
                 <div className="box">
                     <h2>Grupy sportowe</h2>
-                    {this.state.groups ? <GroupsList groups={this.state.groups} handleClick={this.handleClick} handleDelete={this.handleDelete}/> : null}
+                    {this.state.groups 
+                        ? 
+                        <GroupsList groups={this.state.groups} handleClick={this.handleClick} handleDelete={this.handleDelete} handleJoinGroup={this.handleJoinGroup} user={this.context.user}/> 
+                        : 
+                        null
+                    }
+
+                    {this.context.user.role == "admin"
+                    ?
                     <AddGroup handleListUpdate={this.handleListUpdate} />
+                    :
+                    null
+                    }
+                    
                 </div>
                 {this.state.groupDetails 
                     ? 
@@ -76,5 +110,7 @@ class Groups extends Component {
         )
     }
 }
+
+Groups.contextType = AuthContext;
 
 export default Groups;

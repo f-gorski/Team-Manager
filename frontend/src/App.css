@@ -58,6 +58,7 @@ header nav a {
   background-color: gray;
 }
 
-.items-list {
+.items-list,
+.items-list li {
   list-style: none;
 }

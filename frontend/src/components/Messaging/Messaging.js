@@ -2,11 +2,7 @@ import React, { Component } from 'react';
 
 import MsgDetails from './MsgDetails';
 import SendMessage from './SendMessage';
-
-//test
-const userID = 'Jan Kowalski';
-
-
+import { AuthContext } from '../../auth/AuthContext';
 
 class Messaging extends Component {
     constructor() {
@@ -18,9 +14,11 @@ class Messaging extends Component {
     }
 
     componentDidMount() {
-        fetch(`http://localhost:5000/api/messages/${userID}`)
+        console.log(this.context.user.email)
+        fetch(`http://localhost:5000/api/messages/${this.context.user.user_id}`)
             .then(response => response.json())
             .then(data => {
+                console.log(data)
                 this.setState({
                     msgList: {...data}
                 })
@@ -28,7 +26,7 @@ class Messaging extends Component {
     }
 
     handleListUpdate = () => {
-        fetch(`http://localhost:5000/api/messages/${userID}`)
+        fetch(`http://localhost:5000/api/messages/${this.context.user.user_id}`)
             .then(response => response.json())
             .then(data => {
                 this.setState({
@@ -51,7 +49,7 @@ class Messaging extends Component {
         .then(response => response.json())
         .then(data => {
             this.setState({
-                msgDetails: data[0]
+                msgDetails: data
             })
             console.log(this.state.msgDetails)
         });
@@ -82,7 +80,7 @@ class Messaging extends Component {
                     </ul>
 
                     <div>
-                        <SendMessage user={userID} handleListUpdate={this.handleListUpdate}/>
+                        <SendMessage user={this.context.user} handleListUpdate={this.handleListUpdate}/>
                     </div>
                 </div>
             {this.state.msgDetails
@@ -98,5 +96,7 @@ class Messaging extends Component {
         )
     }
 }
+
+Messaging.contextType = AuthContext;
 
 export default Messaging;

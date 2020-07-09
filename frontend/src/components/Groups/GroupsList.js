@@ -4,13 +4,31 @@ class GroupsList extends Component {
     constructor() {
         super();
         this.state = {
-            groupDetails: null
+            
         }
     }
 
     render() {
             const groupsToRender = this.props.groups.map((group) => {
-            return <><li onClick={this.props.handleClick} id={group.rowid}>{group.name}</li><button id={group.rowid} onClick={this.props.handleDelete}>Usuń</button></>
+            return( 
+                <>
+                <li onClick={this.props.handleClick} id={group.rowid}>{group.group_name}</li>
+                {this.props.user.role == "admin"
+                ?
+                <button id={group.rowid} onClick={this.props.handleDelete}>Usuń</button>
+                :
+                null
+                }
+
+                {this.props.user.role == "user"
+                ?
+                <button id={group.rowid} onClick={this.props.handleJoinGroup}>Dołącz</button>
+                :
+                null
+                }
+                
+                </>
+            )
             })
             
         return(

@@ -13,7 +13,7 @@ let db = new sqlite3.Database('./database.db', (err) => {
 
 db.serialize(() => {
     //tworzenie tabeli użytkowników
-    db.run("CREATE TABLE users(user_id INTEGER PRIMARY KEY, name TEXT, email TEXT, group_id INTEGER, msg_id INTEGER)", (err) => {
+    db.run("CREATE TABLE users(user_id INTEGER PRIMARY KEY, name TEXT, email TEXT, password TEXT, role TEXT)", (err) => {
         if(err) {
             console.error(err);
         } else {
@@ -21,7 +21,15 @@ db.serialize(() => {
         }
     });
 
-    db.run("INSERT INTO users VALUES (1, 'User1', 'test@test.com', 1, 1)", (err) => {
+    db.run("INSERT INTO users(name, email, password, role) VALUES ('Admin', 'admin@test.pl', '$2b$10$WO4YXmdGQH0ou9vCahyqZe0/qZ/bAgO/02HldAXhfUBuQ4eJGf0x.', 'admin' )", (err) => {
+        if(err) {
+            console.error(err);
+        } else {
+            console.log("Inserted initial admin")
+        }
+    });
+
+    db.run("INSERT INTO users(name, email, password, role) VALUES ('Trener', 'trener@test.pl', '$2b$10$WO4YXmdGQH0ou9vCahyqZe0/qZ/bAgO/02HldAXhfUBuQ4eJGf0x.', 'trainer' )", (err) => {
         if(err) {
             console.error(err);
         } else {
@@ -30,28 +38,39 @@ db.serialize(() => {
     });
 
     //tworzenie tabeli grup sportowych
-    db.run("CREATE TABLE groups(name TEXT, member_list_id INTEGER, trainer_name TEXT)", (err) => {
+    db.run("CREATE TABLE groups(group_name TEXT, trainer INTEGER)", (err) => {
         if(err) {
             console.error(err);
         } else {
             console.log("Initialized groups")
         }
     });
-    db.run("INSERT INTO groups VALUES ('Grupa piłki nożnej', 0, 'Trener 1')", (err) => {
+
+    
+
+    db.run("CREATE TABLE group_members(user_id INTEGER, group_id INTEGER, CONSTRAINT unique_member UNIQUE (user_id, group_id))", (err) => {
+        if(err) {
+            console.error(err);
+        } else {
+            console.log("Initialized group_members")
+        }
+    });
+
+    db.run("INSERT INTO groups VALUES ('Grupa piłki nożnej', 1)", (err) => {
         if(err) {
             console.error(err);
         } else {
             console.log("Inserted initial group")
         }
     });
-    db.run("INSERT INTO groups VALUES ('Grupa siatkówki', 1, 'Trener 2')", (err) => {
+    db.run("INSERT INTO groups VALUES ('Grupa siatkówki', 1)", (err) => {
         if(err) {
             console.error(err);
         } else {
             console.log("Inserted initial group")
         }
     });
-    db.run("INSERT INTO groups VALUES ('Grupa koszykówki', 2, 'Trener 3')", (err) => {
+    db.run("INSERT INTO groups VALUES ('Grupa koszykówki', 1)", (err) => {
         if(err) {
             console.error(err);
         } else {
@@ -60,40 +79,22 @@ db.serialize(() => {
     });
 
     //tworzenie tabeli trenerów
-    db.run("CREATE TABLE trainers(trainer_id INTEGER, trainer_name TEXT)", (err) => {
+    db.run("CREATE TABLE group_trainers(user_id INTEGER, group_id INTEGER)", (err) => {
         if(err) {
             console.error(err);
         } else {
-            console.log("Created trainers table")
+            console.log("Initialized group_trainers")
         }
     });
-
-    db.run("INSERT INTO trainers VALUES (1, 'Jan Kowalski')", (err) => {
-        if(err) {
-            console.error(err);
-        } else {
-            console.log("Inserted initial trainer")
-        }
-    });
-
 
     //tworzenie tabeli wiadomości tekstowych
     db.run("CREATE TABLE messages(msg_from TEXT, msg_to TEXT, header TEXT, body TEXT)", (err) => {
         if(err) {
             console.error(err);
         } else {
-            console.log("Created members table")
+            console.log("Initialized messages")
         }
     });
-
-    db.run("INSERT INTO messages VALUES ('Trener 1', 'Jan Kowalski', 'Zmiana terminu zajęć', 'Nastapiła zmiana terminu zajęć na godzinę 19:00')", (err) => {
-        if(err) {
-            console.error(err);
-        } else {
-            console.log("Inserted initial trainer")
-        }
-    });
-
 })
 
 db.close((err) => {

@@ -1,22 +1,36 @@
 import React, { Component } from 'react';
+import UserSelect from './UserSelect';
 
 class SendMessage extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            msgFrom: this.props.user,
+            userList: null,
+            msgFrom: this.props.user.user_id,
             msgTo: "",
             msgHeader: "",
             msgBody: "",
         }
     }
 
+    componentDidMount() {
+        fetch(`http://localhost:5000/api/users/${this.props.user.user_id}`)
+            .then(response => response.json())
+            .then((data) =>  this.setState({userList: data}));
+        
+        console.log(this.state.userList);  
+    }
+
     handleSubmit = (e) => {
         e.preventDefault();
+        const postBody = this.state;
+        delete postBody.userList;
+
+        console.log(this.state.msgFrom)
         console.log(this.state);
         fetch('http://localhost:5000/api/messages', {
                 method: 'POST',
-                body: JSON.stringify(this.state),
+                body: JSON.stringify(postBody),
                 headers: {
                     'Content-Type': 'application/json'
                 }
@@ -25,7 +39,7 @@ class SendMessage extends Component {
             .then(() =>  this.props.handleListUpdate());
 
         this.setState({
-            msgFrom: this.props.user,
+            msgFrom: this.props.user.user_id,
             msgTo: "",
             msgHeader: "",
             msgBody: "",
@@ -33,8 +47,10 @@ class SendMessage extends Component {
     }
 
     handleChange = (e) => {
+        const {name, value} = e.target;
+        console.log(name, value)
         this.setState({
-            [e.target.name]: e.target.value
+            [name]: value
         })
     }
 
@@ -45,7 +61,13 @@ class SendMessage extends Component {
                
                 <div>
                     <label>Adresat:
-                        <input name="msgTo" type="text" value={this.state.msgTo} onChange={this.handleChange} />
+                        {this.state.userList
+                            ?
+                            <UserSelect userList={this.state.userList} msgTo={this.state.msgTo} handleChange={this.handleChange}/>
+                            :
+                            null
+                        }
+
                     </label>
                 </div>
 
