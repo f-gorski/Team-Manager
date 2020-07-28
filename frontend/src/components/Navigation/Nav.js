@@ -23,8 +23,8 @@ Nav.contextType = AuthContext;
 class MainNav extends Component {
     render() {
         return (
-                    <nav className="nav">
-                        <ul>
+                    <nav>
+                        <ul className="nav">
                             <>
                             <NavLink activeClassName="active-link" exact to='/'>Strona główna</NavLink>
                             {
@@ -33,6 +33,7 @@ class MainNav extends Component {
                                 <>
                                 <NavLink activeClassName="active-link" to='/grupy'>Grupy</NavLink>
                                 <NavLink activeClassName="active-link" to='wiadomosci'>Wiadomosci</NavLink>
+                                <NavLink activeClassName="active-link" to='kalendarz'>Kalendarz</NavLink>
                                 </>
                                 :
                                 null
@@ -47,7 +48,7 @@ class MainNav extends Component {
 class AuthNav extends Component {
     render() {
         return (
-                    <nav className="nav">
+                    <nav>
                         <ul>
                             <>
                             {

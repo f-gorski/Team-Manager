@@ -75,7 +75,7 @@ class Register extends Component {
                             </label>
                         </div>
 
-                        <button type="submit">Zarejestruj</button>
+                        <button type="submit" className="btn btn-dark">Zarejestruj</button>
                     </form>
                 </div>
             </div>

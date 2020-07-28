@@ -5,8 +5,8 @@
 }
 
 .App {
-  background-color: #282c34;
-  height: 100vh;
+  background-color: #303133;
+  min-height: 100vh;
   width: 100vw;
 }
 
@@ -26,6 +26,36 @@
 
   border-radius: 10px;
   padding: 20px;
+}
+
+.container .box-calendar {
+  background-color: white;
+  color: black;
+  margin-top: 2rem;
+
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.container .box-calendar:nth-of-type(1) {
+  width: 70%;
+}
+
+.container .box-calendar:nth-of-type(2) {
+  width: 25%;
+  height: 500px;
+}
+
+.fc {
+  width:100%;
+}
+
+.fc-scrollgrid-sync-table {
+  width: 100%;
+}
+
+.fc-col-header {
+  width: 100%;
 }
 
 .App-header {

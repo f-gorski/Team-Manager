@@ -57,7 +57,7 @@ class LogIn extends Component {
                             </label>
                         </div>
 
-                        <button type="submit">Zaloguj się</button>
+                        <button type="submit" className="btn btn-dark">Zaloguj się</button>
                     </form>
                 </div>
             </div>

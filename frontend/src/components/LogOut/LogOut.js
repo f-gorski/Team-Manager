@@ -23,7 +23,7 @@ class LogOut extends Component {
             <>
             <div className="container">
                 <div className="box">
-                    <button onClick={this.handleClick}>Wyloguj się</button>
+                    <button onClick={this.handleClick} className="btn btn-dark">Wyloguj się</button>
                 </div>
             </div>
             </>

@@ -37,7 +37,7 @@ class Messaging extends Component {
 
     generateList(msgList) {
         const msgToRender = msgList.map((message) => {
-            return <><li id={message.rowid} onClick={this.handleClick}>{message.header}</li><button id={message.rowid} onClick={this.handleDelete}>Usuń</button></>
+            return <><li id={message.rowid} onClick={this.handleClick}>{message.header}</li><button id={message.rowid} onClick={this.handleDelete} className="btn btn-dark btn-sm">Usuń</button></>
          });
         
         return msgToRender;

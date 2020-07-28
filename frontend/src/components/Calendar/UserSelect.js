@@ -10,8 +10,8 @@ class UserSelect extends Component {
             return <option value={user.user_id}>{user.name}</option>
         });
         return (
-                 <select name="msgTo" value={this.props.msgTo} onChange={this.props.handleChange}>
-                     <option value="">Wybierz adresata</option>
+                 <select name="selectedUser" value={this.props.selectedUser} onChange={this.props.handleChange}>
+                     <option value="">Wybierz użytkownika</option>
                      {optionsToRender}
                  </select>
         )

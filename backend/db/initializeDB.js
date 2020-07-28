@@ -56,21 +56,21 @@ db.serialize(() => {
         }
     });
 
-    db.run("INSERT INTO groups VALUES ('Grupa piłki nożnej', 1)", (err) => {
+    db.run("INSERT INTO groups VALUES ('Grupa piłki nożnej', 2)", (err) => {
         if(err) {
             console.error(err);
         } else {
             console.log("Inserted initial group")
         }
     });
-    db.run("INSERT INTO groups VALUES ('Grupa siatkówki', 1)", (err) => {
+    db.run("INSERT INTO groups VALUES ('Grupa siatkówki', 2)", (err) => {
         if(err) {
             console.error(err);
         } else {
             console.log("Inserted initial group")
         }
     });
-    db.run("INSERT INTO groups VALUES ('Grupa koszykówki', 1)", (err) => {
+    db.run("INSERT INTO groups VALUES ('Grupa koszykówki', 2)", (err) => {
         if(err) {
             console.error(err);
         } else {
@@ -93,6 +93,15 @@ db.serialize(() => {
             console.error(err);
         } else {
             console.log("Initialized messages")
+        }
+    });
+
+    //tworzenie tabeli wydarzeń
+    db.run("CREATE TABLE events(id INTEGER, user_id INTEGER, title TEXT, start TEXT)", (err) => {
+        if(err) {
+            console.error(err);
+        } else {
+            console.log("Initialized events")
         }
     });
 })

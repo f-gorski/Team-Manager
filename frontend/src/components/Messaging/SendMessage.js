@@ -83,7 +83,7 @@ class SendMessage extends Component {
                     </label>
                 </div>
 
-                <button type="submit">Wyślij wiadomość</button>
+                <button type="submit" className="btn btn-dark">Wyślij wiadomość</button>
             </form>
         )       
     }

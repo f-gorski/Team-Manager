@@ -72,7 +72,7 @@ class AddGroup extends Component {
                     </label>
                 </div>
 
-                <button type="submit">Dodaj grupę</button>
+                <button type="submit" className="btn btn-dark">Dodaj grupę</button>
             </form>
         )       
     }

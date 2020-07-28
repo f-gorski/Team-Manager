@@ -15,6 +15,7 @@ import Home from './components/Home/Home';
 import Register from './components/Register/Register';
 import LogIn from './components/LogIn/LogIn';
 import LogOut from './components/LogOut/LogOut';
+import CalendarOptions from './components/Calendar/CalendarOptions';
 
 class App extends Component {
 
@@ -48,6 +49,9 @@ class App extends Component {
               </Route>
               <Route path="/wiadomosci">
                 <Messaging />
+              </Route>
+              <Route path="/kalendarz">
+                <CalendarOptions />
               </Route>
               <Route path="/rejestracja">
                 <Register />
