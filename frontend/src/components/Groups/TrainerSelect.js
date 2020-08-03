@@ -13,7 +13,7 @@ class TrainerSelect extends Component {
             return <option value={user.user_id}>{user.name}</option>
         });
         return (
-                 <select name="trainer" value={this.props.trainer} onChange={this.props.handleChange}>
+                 <select name="trainer" value={this.props.trainer} onChange={this.props.handleChange} className="form-control">
                      <option value="">Imię i nazwisko trenera</option>
                      {optionsToRender}
                  </select>

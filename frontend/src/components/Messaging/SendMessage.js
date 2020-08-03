@@ -10,6 +10,9 @@ class SendMessage extends Component {
             msgTo: "",
             msgHeader: "",
             msgBody: "",
+            msgToError: "",
+            msgHeaderError: "",
+            msgBodyError: ""
         }
     }
 
@@ -21,29 +24,63 @@ class SendMessage extends Component {
         console.log(this.state.userList);  
     }
 
-    handleSubmit = (e) => {
-        e.preventDefault();
-        const postBody = this.state;
-        delete postBody.userList;
+    validate = () => {
+        let msgToError = "";
+        let msgHeaderError = "";
 
-        console.log(this.state.msgFrom)
-        console.log(this.state);
-        fetch('http://localhost:5000/api/messages', {
-                method: 'POST',
-                body: JSON.stringify(postBody),
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
-            .then(response => console.log(response.status, "response:", response))
-            .then(() =>  this.props.handleListUpdate());
+        if(!this.state.msgTo) {
+            msgToError = "Wybierz adresata";
+        }
+
+        const regexHeader = /^[a-zA-Z ]+$/;
+        if(!regexHeader.test(this.state.msgHeader)) {
+           msgHeaderError = "Wpisz temat wiadomości"
+        }
+
+        if(msgToError || msgHeaderError) {
+            this.setState({msgToError, msgHeaderError});
+            return false;
+        }
 
         this.setState({
-            msgFrom: this.props.user.user_id,
-            msgTo: "",
-            msgHeader: "",
-            msgBody: "",
+            msgToError: "",
+            msgHeaderError: "",
+            msgBodyError: ""
         })
+
+        return true;
+    }
+
+
+    handleSubmit = (e) => {
+        e.preventDefault();
+
+        const isFormValid = this.validate();
+
+        if(isFormValid) {
+            const postBody = {
+                msgFrom: this.state.msgFrom,
+                msgTo: this.state.msgTo,
+                msgHeader: this.state.msgHeader,
+                msgBody: this.state.msgBody
+            }
+    
+            fetch('http://localhost:5000/api/messages', {
+                    method: 'POST',
+                    body: JSON.stringify(postBody),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => console.log(response.status, "response:", response))
+                .then(() =>  this.props.handleListUpdate());
+    
+            this.setState({
+                msgTo: "",
+                msgHeader: "",
+                msgBody: "",
+            })
+        }
     }
 
     handleChange = (e) => {
@@ -59,7 +96,7 @@ class SendMessage extends Component {
             <form onSubmit={this.handleSubmit}>
                 <h3>Nowa wiadomość:</h3>
                
-                <div>
+                <div className="form-group">
                     <label>Adresat:
                         {this.state.userList
                             ?
@@ -71,19 +108,27 @@ class SendMessage extends Component {
                     </label>
                 </div>
 
-                <div>
+                <div className="form-group">
                     <label>Temat:
-                        <input name="msgHeader" type="text" value={this.state.msgHeader} onChange={this.handleChange} />
+                        <input name="msgHeader" type="text" value={this.state.msgHeader} onChange={this.handleChange} className="form-control"/>
                     </label>
                 </div>
 
-                <div>
+                <div className="form-group">
                     <label>Treść
-                        <input name="msgBody" type="textarea" rows="4" cols="50" placeholder="Napisz wiadomość" value={this.state.msgBody} onChange={this.handleChange} />
+                        <input name="msgBody" type="textarea" rows="4" cols="50" placeholder="Napisz wiadomość" value={this.state.msgBody} onChange={this.handleChange} className="form-control"/>
                     </label>
                 </div>
 
                 <button type="submit" className="btn btn-dark">Wyślij wiadomość</button>
+
+                {this.state.msgToError ?
+                    <div className="alert alert-warning">{this.state.msgToError}</div>
+                    :null}
+                {this.state.msgHeaderError ?
+                    <div className="alert alert-warning">{this.state.msgHeaderError}</div>
+                    :null}
+
             </form>
         )       
     }

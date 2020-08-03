@@ -30,6 +30,15 @@ class CalendarOptions extends Component {
                 })
             console.log(data);
             });
+
+        fetch(`http://localhost:5000/api/events/${this.context.user.user_id}`)
+        .then(response => response.json())
+        .then(data => {
+            this.setState({
+                events: data
+            })
+        console.log(data);
+        });
     }
 
     postEvent = (addInfo) => {
@@ -67,10 +76,23 @@ class CalendarOptions extends Component {
             .then(response => console.log(response.status, "response:", response));
     }
 
-    handleDateSelect = (selectInfo) => {
-        console.log("handleDateSelect", this.state)
+    validate = () => {
+        
+        if(!this.state.title && !this.state.startTime) {
+            return false
+        }
 
-        if(this.state.title && this.state.startTime) {
+        this.setState({
+            error: false
+        })
+
+        return true;
+    }
+
+    handleDateSelect = (selectInfo) => {
+        const isFormValid = this.validate();
+
+        if(isFormValid) {
             let calendarApi = selectInfo.view.calendar
 
             console.log(selectInfo.startStr)
@@ -151,22 +173,21 @@ class CalendarOptions extends Component {
                     editable={true}
                     selectable={true}
                     selectMirror={true}
-                    //dayMaxEvents={false}
                     events={this.state.events}
                     select={this.handleDateSelect}
                     eventContent={this.renderEventContent} 
                     eventClick={this.handleEventClick}
-                    //eventsSet={this.handleEvents}// called after events are initialized/added/changed/removed
-                    // you can update a remote database when these fire:
+                    //Below methods are for handling API calls
                     eventAdd={this.postEvent}
-                    // eventChange={function(){}}
                     eventRemove={this.removeEvent}
                     />
                 </div>
 
+                {this.context.user.role == "trainer" || this.context.user.role == "admin" 
+                ?
                 <div className="box-calendar">
                     <h3>Wybierz użytkownika</h3>
-                        <div>
+                        <div className="form-group">
                             <label>
                                 Użytkownik:
                                 {this.state.userList
@@ -180,17 +201,17 @@ class CalendarOptions extends Component {
 
                     <h3>Dodaj wydarzenie</h3>
                     <form onSubmit={this.handleSubmit}>
-                            <div>
+                            <div className="form-group">
                                 <label>
                                     Nazwa wydarzenia:
-                                    <input type="text" name="title" value={this.state.title} onChange={this.handleChange}/>
+                                    <input type="text" name="title" value={this.state.title} onChange={this.handleChange} className="form-control"/>
                                 </label>
                             </div>
 
-                            <div>
+                            <div className="form-group">
                                 <label>
                                     Godzina rozpoczęcia:
-                                    <input type="time" name="startTime" value={this.state.startTime} onChange={this.handleChange}/>
+                                    <input type="time" name="startTime" value={this.state.startTime} onChange={this.handleChange} className="form-control"/>
                                 </label>
                             </div>
 
@@ -203,11 +224,10 @@ class CalendarOptions extends Component {
                             </div>
                     </form>
                 </div>
-            </div>
-
-                    
-
-                   
+                :
+                null
+                }
+            </div> 
         )
     }
 }

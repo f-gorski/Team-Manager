@@ -8,6 +8,8 @@ class AddGroup extends Component {
             trainerList: null,
             nameGroup: "",
             trainer: "",
+            nameError: "",
+            trainerError: ""
         }
     }
 
@@ -20,27 +22,60 @@ class AddGroup extends Component {
             }); 
     }
 
-    handleSubmit = (e) => {
-        e.preventDefault();
-        const postBody = this.state;
-        const trainerList = this.state.trainerList;
-        delete postBody.trainerList;
+    validate = () => {
+        let nameError = "";
+        let trainerError = "";
 
-        fetch('http://localhost:5000/api/groups', {
-                method: 'POST',
-                body: JSON.stringify(postBody),
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
-            .then(response => console.log(response.status, "response:", response))
-            .then(() =>  this.props.handleListUpdate());
+        const regexName = /^[a-zA-Z ]+$/;
+        if(!regexName.test(this.state.nameGroup)) {
+            nameError = "Podaj nazwę grupy"
+        }
+
+        if(!this.state.trainer) {
+            trainerError = "Wybierz trenera grupy";
+        }
+
+        if(nameError || trainerError) {
+            this.setState({nameError, trainerError});
+            return false;
+        }
 
         this.setState({
-            nameGroup: "",
-            trainer: "",
-            trainerList: trainerList
+            nameError: "",
+            trainerError: ""
         })
+
+        return true;
+    }
+
+
+    handleSubmit = (e) => {
+        e.preventDefault();
+        const isFormValid = this.validate();
+
+        if(isFormValid) {
+            const postBody = {
+                nameGroup: this.state.nameGroup,
+                trainer: this.state.trainer
+            }
+            const trainerList = this.state.trainerList;
+
+            fetch('http://localhost:5000/api/groups', {
+                    method: 'POST',
+                    body: JSON.stringify(postBody),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => console.log(response.status, "response:", response))
+                .then(() =>  this.props.handleListUpdate());
+
+            this.setState({
+                nameGroup: "",
+                trainer: "",
+                trainerList: trainerList
+            })
+        }
     }
 
     handleChange = (e) => {
@@ -55,14 +90,14 @@ class AddGroup extends Component {
             <form onSubmit={this.handleSubmit}>
                 <h3>Dodaj grupę</h3>
                
-                <div>
+                <div className="form-group">
                     <label>Nazwa grupy
-                        <input name="nameGroup" type="text" value={this.state.nameGroup} onChange={this.handleChange} />
+                        <input name="nameGroup" type="text" value={this.state.nameGroup} onChange={this.handleChange} className="form-control" />
                     </label>
                 </div>
 
-                <div>
-                <label>Trener:
+                <div className="form-group">
+                <label>Trener
                         {this.state.trainerList
                             ?
                             <TrainerSelect trainerList={this.state.trainerList} trainer={this.state.trainer} handleChange={this.handleChange}/>
@@ -73,6 +108,12 @@ class AddGroup extends Component {
                 </div>
 
                 <button type="submit" className="btn btn-dark">Dodaj grupę</button>
+                    {this.state.nameError ?
+                        <div className="alert alert-warning">{this.state.nameError}</div>
+                        :null}
+                    {this.state.trainerError ?
+                        <div className="alert alert-warning">{this.state.trainerError}</div>
+                        :null}
             </form>
         )       
     }
