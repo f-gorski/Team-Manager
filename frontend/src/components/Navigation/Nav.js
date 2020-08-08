@@ -1,77 +1,37 @@
 import React, { Component } from 'react';
-import { NavLink } from 'react-router-dom';
 import { AuthContext } from '../../auth/AuthContext';
 
+import AuthNav from './AuthNav';
+import MainNav from './MainNav';
 
 
 class Nav extends Component {
     render() {
         return (
-            <header className="App-header">
-                <div className="container">
-                    <h1>Zarządzanie drużynami</h1>
-                    <AuthNav user={this.context.user}/>
-                    <MainNav user={this.context.user}/>
-                </div>
+            <header>
+                <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+                    <div className="container">
+                        <a className="navbar-brand" href="#">Zarządzanie drużynami</a>
+                        <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                            <span className="navbar-toggler-icon"></span>
+                        </button>
+                        <div className="collapse navbar-collapse" id="navbarText">
+                            <ul className="navbar-nav mr-auto">
+                                <AuthNav user={this.context.user} />
+                            </ul>
+                            <ul className="navbar-nav ml-auto">
+                                <MainNav user={this.context.user} />
+                            </ul>
+
+                        </div>
+                    </div>
+                </nav>
             </header>
         )
-    } 
+    }
 }
 
 Nav.contextType = AuthContext;
 
-class MainNav extends Component {
-    render() {
-        return (
-                    <nav>
-                        <ul className="nav">
-                            <>
-                            <NavLink activeClassName="active-link" exact to='/'>Strona główna</NavLink>
-                            {
-                                this.props.user 
-                                ? 
-                                <>
-                                <NavLink activeClassName="active-link" to='/grupy'>Grupy</NavLink>
-                                <NavLink activeClassName="active-link" to='wiadomosci'>Wiadomosci</NavLink>
-                                <NavLink activeClassName="active-link" to='kalendarz'>Kalendarz</NavLink>
-                                </>
-                                :
-                                null
-                            }
-                            </>
-                        </ul>
-                    </nav>
-        )
-    } 
-}
-
-class AuthNav extends Component {
-    render() {
-        return (
-                    <nav>
-                        <ul>
-                            <>
-                            {
-                                this.props.user 
-                                ?
-                                <span>{`Witaj ${this.props.user.name}`}</span>
-                                :
-                                <NavLink activeClassName="active-link" to='/logowanie'>Zaloguj się</NavLink>
-                            }
-                            {
-                                this.props.user
-                                ?
-                                <NavLink activeClassName="active-link" to='/wylogowanie'>Wyloguj się</NavLink>
-                                :
-                                <NavLink activeClassName="active-link" to='/rejestracja'>Rejestracja</NavLink>
-                            }
-                            </>
-                        </ul>
-                    </nav>
-        )
-    } 
-}
-
 
 export default Nav;
-

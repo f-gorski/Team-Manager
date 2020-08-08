@@ -22,29 +22,30 @@ class Groups extends Component {
                 this.setState({
                     groups: data
                 })
-            console.log(data);
-            })    
+                console.log(data);
+            })
     }
 
     handleClick = (e) => {
         console.log(e.target.id);
         fetch(`http://localhost:5000/api/groups/${e.target.id}`)
-        .then(response => response.json())
-        .then(data => {this.setState({
-            groupDetails: data
-        })
-        console.log(data)
-        });
+            .then(response => response.json())
+            .then(data => {
+                this.setState({
+                    groupDetails: data
+                })
+                console.log(data)
+            });
     }
 
     handleDelete = (e) => {
         console.log(e.target.id);
         fetch('http://localhost:5000/api/groups/' + e.target.id, {
             method: 'DELETE'
-            }
+        }
         )
-        .then(response => console.log(response.status, "response:", response))
-        .then(() =>  this.handleListUpdate());
+            .then(response => console.log(response.status, "response:", response))
+            .then(() => this.handleListUpdate());
     }
 
     handleJoinGroup = (e) => {
@@ -63,8 +64,8 @@ class Groups extends Component {
             }
         }
         )
-        .then(response => console.log(response.status, "response:", response))
-        .then(() =>  this.handleListUpdate());
+            .then(response => console.log(response.status, "response:", response))
+            .then(() => this.handleListUpdate());
     }
 
     handleListUpdate = () => {
@@ -72,40 +73,44 @@ class Groups extends Component {
             .then(response => response.json())
             .then(data => {
                 this.setState({
-                groups: data
+                    groups: data
+                })
+                console.log(data);
             })
-            console.log(data);
-            })    
     }
 
     render() {
-        return(
+        return (
             <div className="container">
-                <div className="box">
-                    <h2>Grupy sportowe</h2>
-                    {this.state.groups 
-                        ? 
-                        <GroupsList groups={this.state.groups} handleClick={this.handleClick} handleDelete={this.handleDelete} handleJoinGroup={this.handleJoinGroup} user={this.context.user}/> 
-                        : 
+                <div className="row justify-content-center mt-3">
+                    <div className="col-md-6 col-sm-6 box">
+                        <h2>Grupy sportowe</h2>
+                        {this.state.groups
+                            ?
+                            <GroupsList groups={this.state.groups} handleClick={this.handleClick} handleDelete={this.handleDelete} handleJoinGroup={this.handleJoinGroup} user={this.context.user} />
+                            :
+                            null
+                        }
+
+                        {this.context.user.role == "admin"
+                            ?
+                            <AddGroup handleListUpdate={this.handleListUpdate} />
+                            :
+                            null
+                        }
+                    </div>
+                    </div>
+                    {this.state.groupDetails
+                        ?
+                        <div className="row justify-content-center mt-3">
+                            <div className="col-md-6 col-sm-6 box">
+                                <GroupDetails groupDetails={this.state.groupDetails} />
+                            </div>
+                        </div>
+
+                        :
                         null
                     }
-
-                    {this.context.user.role == "admin"
-                    ?
-                    <AddGroup handleListUpdate={this.handleListUpdate} />
-                    :
-                    null
-                    }
-                    
-                </div>
-                {this.state.groupDetails 
-                    ? 
-                    <div className="box"> 
-                        <GroupDetails groupDetails={this.state.groupDetails} /> 
-                    </div> 
-                    : 
-                    null
-                }
             </div>
         )
     }

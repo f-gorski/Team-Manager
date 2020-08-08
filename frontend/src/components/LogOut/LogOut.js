@@ -9,7 +9,7 @@ class LogOut extends Component {
 
         fetch('http://localhost:5000/logout')
             .then(response => {
-                if(response.status === 200) {
+                if (response.status === 200) {
                     this.context.setUser(null);
                     this.props.history.push('/logowanie')
                 } else {
@@ -19,15 +19,17 @@ class LogOut extends Component {
     }
 
     render() {
-        return(
+        return (
             <>
-            <div className="container">
-                <div className="box">
-                    <button onClick={this.handleClick} className="btn btn-dark">Wyloguj się</button>
+                <div className="container">
+                    <div className="row justify-content-center mt-3">
+                        <div className="col-sm-6 box">
+                            <button onClick={this.handleClick} className="btn btn-dark mx-auto">Wyloguj się</button>
+                        </div>
+                    </div>
                 </div>
-            </div>
             </>
-        )       
+        )
     }
 }
 

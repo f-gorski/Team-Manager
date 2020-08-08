@@ -4,31 +4,24 @@
   box-sizing: border-box;
 }
 
-.App {
+body {
   background-color: #303133;
-  min-height: 100vh;
-  width: 100vw;
-}
-
-.container {
-  margin: 0 auto;
-  width: 85%;
-  display: flex;
-  justify-content: space-between;
-  color: white;
 }
 
 .container .box {
   background-color: white;
   color: black;
-  margin-top: 2rem;
-  width: 45%;
 
   border-radius: 10px;
   padding: 20px;
 }
 
-.container .box-calendar {
+.form-login {
+  width: 100%;
+  background-color: #fff;
+}
+
+.container-fluid .box-calendar {
   background-color: white;
   color: black;
   margin-top: 2rem;
@@ -37,13 +30,13 @@
   padding: 20px;
 }
 
-.container .box-calendar:nth-of-type(1) {
+.container-fluid .box-calendar:nth-of-type(1) {
   width: 70%;
 }
 
-.container .box-calendar:nth-of-type(2) {
+.container-fluid .box-calendar:nth-of-type(2) {
   width: 25%;
-  height: 600px;
+
 }
 
 .fc {
@@ -66,22 +59,6 @@
   align-items: center;
   justify-content: left;
   color: white;
-}
-
-.App-header .container {
-  margin: auto;
-}
-
-header nav {
-  display: flex;
-  align-items: center;
-}
-
-header nav a {
-  text-decoration: none;
-  color: white;
-  padding: 10px 20px;
-  margin: 0 5px;
 }
 
 .active-link {
