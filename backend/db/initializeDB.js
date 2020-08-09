@@ -1,4 +1,4 @@
-//Ten skrypt jest przeznaczony do jednorazowego zainicjalizowania bazy danych
+//This script is to be run once at the server start to initialize database
 //node initializeDB.js
 
 const sqlite3 = require('sqlite3').verbose();
@@ -12,7 +12,7 @@ let db = new sqlite3.Database('./database.db', (err) => {
 });
 
 db.serialize(() => {
-    //tworzenie tabeli użytkowników
+    //Create users table
     db.run("CREATE TABLE users(user_id INTEGER PRIMARY KEY, name TEXT, email TEXT, password TEXT, role TEXT)", (err) => {
         if(err) {
             console.error(err);
@@ -37,7 +37,7 @@ db.serialize(() => {
         }
     });
 
-    //tworzenie tabeli grup sportowych
+    //Create groups table
     db.run("CREATE TABLE groups(group_name TEXT, trainer INTEGER)", (err) => {
         if(err) {
             console.error(err);
@@ -45,8 +45,6 @@ db.serialize(() => {
             console.log("Initialized groups")
         }
     });
-
-    
 
     db.run("CREATE TABLE group_members(user_id INTEGER, group_id INTEGER, CONSTRAINT unique_member UNIQUE (user_id, group_id))", (err) => {
         if(err) {
@@ -78,7 +76,7 @@ db.serialize(() => {
         }
     });
 
-    //tworzenie tabeli trenerów
+    //Create group trainers table
     db.run("CREATE TABLE group_trainers(user_id INTEGER, group_id INTEGER)", (err) => {
         if(err) {
             console.error(err);
@@ -87,7 +85,7 @@ db.serialize(() => {
         }
     });
 
-    //tworzenie tabeli wiadomości tekstowych
+    //Create messages table
     db.run("CREATE TABLE messages(msg_from TEXT, msg_to TEXT, header TEXT, body TEXT)", (err) => {
         if(err) {
             console.error(err);
@@ -96,7 +94,7 @@ db.serialize(() => {
         }
     });
 
-    //tworzenie tabeli wydarzeń
+    //Create messages table
     db.run("CREATE TABLE events(id INTEGER, user_id INTEGER, title TEXT, start TEXT)", (err) => {
         if(err) {
             console.error(err);
