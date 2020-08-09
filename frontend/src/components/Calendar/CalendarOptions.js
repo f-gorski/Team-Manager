@@ -165,11 +165,11 @@ class CalendarOptions extends Component {
 
     render() {
         return (
-            <div className="container-fluid">
-                {this.context.user.role == "trainer" || this.context.user.role == "admin"
-                    ?
-                    <div className="row justify-content-center mt-3">
-                        <div className="col-12 col-md-8 col-sm-12 box-calendar">
+            <div className="container">
+                <div className="row justify-content-between">
+                    {this.context.user.role == "trainer" || this.context.user.role == "admin"
+                        ?
+                        <div className="col-xs-12 col-md-5 mt-4">
                             <h3>Wybierz użytkownika</h3>
                             <div className="form-group">
                                 <label>
@@ -208,13 +208,11 @@ class CalendarOptions extends Component {
                             </div>
                             </form>
                         </div>
-                    </div>
-                    :
-                    null
-                }
+                        :
+                        null
+                    }
 
-                <div className="row justify-content-center mt-3">
-                    <div className="col-12 col-md-8 col-sm-12 box-calendar">
+                    <div className="col-xs-12 col-md-6 mt-4">
                         <FullCalendar
                             plugins={[dayGridPlugin, interactionPlugin]}
                             initialView="dayGridMonth"

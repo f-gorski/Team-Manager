@@ -98,14 +98,14 @@ class Register extends Component {
         return (
             <>
                 <div className="container">
-                    <div className="row justify-content-center mt-5">
-                        <div className="col-md-5 col-sm-6 box">
+                    <div className="row justify-content-center">
+                        <div className="col-xs-12 col-md-5 mt-4">
                             <h3>Rejestracja:</h3>
                             <form onSubmit={this.handleSubmit}>
 
                                 <div className="form-group">
                                     <label>Imię i nazwisko:
-                                <input className="form-control" name="name" type="text" value={this.state.name} onChange={this.handleChange} />
+                                    <input className="form-control" name="name" type="text" value={this.state.name} onChange={this.handleChange} />
                                     </label>
                                     {this.state.nameError ? (
                                         <div className="alert alert-warning">

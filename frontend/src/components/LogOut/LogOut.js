@@ -22,8 +22,8 @@ class LogOut extends Component {
         return (
             <>
                 <div className="container">
-                    <div className="row justify-content-center mt-3">
-                        <div className="col-sm-6 box">
+                    <div className="row justify-content-center">
+                        <div className="col-xs-12 col-md-4 d-flex justify-content-center mt-4">
                             <button onClick={this.handleClick} className="btn btn-dark mx-auto">Wyloguj się</button>
                         </div>
                     </div>

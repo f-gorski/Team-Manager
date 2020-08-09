@@ -69,8 +69,8 @@ class Messaging extends Component {
         return (
             <>
                 <div className="container">
-                    <div className="row justify-content-center mt-3">
-                        <div className="col-md-6 col-sm-6 box">
+                    <div className="row justify-content-between">
+                        <div className="col-xs-12 col-md-5 mt-4">
                             <h2>Odebrane wiadomości:</h2>
                             <ul className="items-list">
                                 {this.state.msgList ? this.generateList(this.state.msgList.recieved) : null}
@@ -84,18 +84,16 @@ class Messaging extends Component {
                                 <SendMessage user={this.context.user} handleListUpdate={this.handleListUpdate} />
                             </div>
                         </div>
-                    </div>
 
-                    {this.state.msgDetails
-                        ?
-                        <div className="row justify-content-center mt-3">
-                            <div className='col-md-6 col-sm-6 box'>
+                        {this.state.msgDetails
+                            ?
+                            <div className='col-xs-12 col-md-5 mt-4'>
                                 <MsgDetails msgDetails={this.state.msgDetails} />
                             </div>
-                        </div>
-                        :
-                        null
-                    }
+                            :
+                            null
+                        }
+                    </div>
                 </div>
             </>
         )

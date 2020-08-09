@@ -82,8 +82,8 @@ class Groups extends Component {
     render() {
         return (
             <div className="container">
-                <div className="row justify-content-center mt-3">
-                    <div className="col-md-6 col-sm-6 box">
+                <div className="row justify-content-between">
+                    <div className="col-xs-12 col-md-5 mt-4">
                         <h2>Grupy sportowe</h2>
                         {this.state.groups
                             ?
@@ -99,18 +99,16 @@ class Groups extends Component {
                             null
                         }
                     </div>
-                    </div>
+
                     {this.state.groupDetails
                         ?
-                        <div className="row justify-content-center mt-3">
-                            <div className="col-md-6 col-sm-6 box">
+                            <div className="col-xs-12 col-md-5 mt-4">
                                 <GroupDetails groupDetails={this.state.groupDetails} />
                             </div>
-                        </div>
-
                         :
                         null
                     }
+                </div>
             </div>
         )
     }

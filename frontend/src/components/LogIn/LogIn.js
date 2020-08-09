@@ -76,8 +76,8 @@ class LogIn extends Component {
         return (
             <>
                 <div className="container">
-                    <div className="row justify-content-center mt-5">
-                        <div className="col-md-5 col-sm-6 box">
+                    <div className="row justify-content-center">
+                        <div className="col-xs-12 col-md-5 mt-4">
                             <form onSubmit={this.handleSubmit}>
                                 <h3>Logowanie:</h3>
 
