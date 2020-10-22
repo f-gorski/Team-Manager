@@ -1,5 +1,6 @@
 node_modules
 build
+/backend/db/database.db
 npm-debug.log
 .env
 .DS_Store
